@@ -63,7 +63,7 @@ public class EmailAppender extends SMTPAppender {
 	}
 
 	private String getSubjectHash(LoggingEvent loggingEvent) {
-        String[] strings = loggingEvent.getThrowableStrRep();
+		String[] strings = loggingEvent.getThrowableStrRep();
 		if (strings == null || strings.length == 0)
 			return "";
 
@@ -71,20 +71,20 @@ public class EmailAppender extends SMTPAppender {
 		for (String str : strings) {
 			stackTrace.append(str);
 		}
-        String stackTraceAsString = removeMessageFromStackTrace(stackTrace, loggingEvent.getThrowableInformation().getThrowable());
-        return DigestUtils.md5Hex(stackTraceAsString);
+		String stackTraceAsString = removeMessageFromStackTrace(stackTrace, loggingEvent.getThrowableInformation().getThrowable());
+		return DigestUtils.md5Hex(stackTraceAsString);
 	}
 
-    private String removeMessageFromStackTrace(StringBuffer sb, Throwable throwable) {
-        String stackTraceAsString = sb.toString();
-        stackTraceAsString = stackTraceAsString.replaceAll(throwable.getMessage(), "");
+	private String removeMessageFromStackTrace(StringBuffer sb, Throwable throwable) {
+		String stackTraceAsString = sb.toString();
+		stackTraceAsString = stackTraceAsString.replaceAll(throwable.getMessage(), "");
 
-        if (throwable.getCause() != null)
-            stackTraceAsString = stackTraceAsString.replaceAll(throwable.getCause().getMessage(), "");
-        return stackTraceAsString;
-    }
+		if (throwable.getCause() != null)
+			stackTraceAsString = stackTraceAsString.replaceAll(throwable.getCause().getMessage(), "");
+		return stackTraceAsString;
+	}
 
-    private void sendEmail(MimeBodyPart mimeBodyPart) throws MessagingException {
+	private void sendEmail(MimeBodyPart mimeBodyPart) throws MessagingException {
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(mimeBodyPart);
 		msg.setContent(multipart);
